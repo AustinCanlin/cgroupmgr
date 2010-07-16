@@ -13,6 +13,7 @@
             </intent-filter>
         </activity>
 
-    </application>    
+    <activity android:launchMode="standard" android:name="ProcessInfoView" android:label="@string/processInfo"></activity>
+</application>    
 
 </manifest> 

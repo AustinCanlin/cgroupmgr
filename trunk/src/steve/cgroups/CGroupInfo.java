@@ -7,7 +7,6 @@ public class CGroupInfo
         System.loadLibrary("cgroupmgr");
     }
 	
-	
-	public native String  stringFromJNI();
 	public native String[]  getProcessList();
+	public native String getProcessInfo(String szPID);
 }

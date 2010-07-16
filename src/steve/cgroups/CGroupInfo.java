@@ -1,0 +1,13 @@
+package steve.cgroups;
+
+public class CGroupInfo
+{
+	static 
+	{
+        System.loadLibrary("cgroupmgr");
+    }
+	
+	
+	public native String  stringFromJNI();
+	public native String[]  getProcessList();
+}

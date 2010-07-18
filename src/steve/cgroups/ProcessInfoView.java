@@ -16,7 +16,8 @@ public final class ProcessInfoView extends Activity
 		Bundle b = getIntent().getExtras();
 		
 		TextView  tv = new TextView(this);
-        tv.setText(cgInfo.getProcessInfo(b.getString("PID")));
+		String pid = b.getString("myPID");
+        tv.setText(cgInfo.getProcessInfo(pid));
         setContentView(tv);
     }
 }

@@ -3,4 +3,6 @@
     <string name="hello">Hello World, Main!</string>
     <string name="app_name">CGroupMgr</string>
 <string name="processInfo">Process Info</string>
+<string name="openProcList">Open Process List</string>
+<string name="processList">Process List</string>
 </resources>

@@ -62,7 +62,7 @@ jstring Java_steve_cgroups_CGroupInfo_getProcessInfo( JNIEnv* env,
 	char szProcInfoPath[MAX_PATH+1];
 	jstring strRet = NULL;
 	
-	sprintf(szProcInfoPath, "/proc/%s/status", (*env)->GetStringChars(env, pid, 0));
+	sprintf(szProcInfoPath, "/proc/%s/status", (*env)->GetStringUTFChars(env, pid, 0));
 	
 	char szInfo[(MAX_PATH*2) + 1];
 	

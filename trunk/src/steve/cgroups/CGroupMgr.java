@@ -1,38 +1,46 @@
 package steve.cgroups;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
+import android.view.View;
+import android.widget.Button;
 import java.lang.String;
 
 public class CGroupMgr extends Activity 
 {		
+	private TextView cgroupInfo;
+	private TextView cgroupPath;
+	
 	/** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) 
     {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.main);
+        setContentView(R.layout.main);
         
-        TextView  tv = new TextView(this);
-        tv.setText("Hello!");
-        tv.setText( getProcessList() );
-        setContentView(tv);
+        cgroupInfo = (TextView)findViewById(R.id.txtCGroupInfo);
+        cgroupInfo.setText("1234567890123456789012345678901234567890\n1234567890123456789012345678901234567890/n1234567890123456789012345678901234567890\n");
+        
+        cgroupPath = (TextView)findViewById(R.id.txtCGroupPath);
+        cgroupPath.setText("/cpuctl");
+        
+        final Button button = (Button) findViewById(R.id.btnOpenProcList);
+        button.setOnClickListener(new View.OnClickListener() 
+        {
+        	public void onClick(View v) 
+        	{
+        		openProcessList();
+        	}
+        });
     }    
     
-    public String getProcessList()
+    private void openProcessList()
     {
-    	String procList = new String();
+    	Intent i = new Intent(this, ProcessListView.class);
     	
-    	CGroupInfo cgInfo = new CGroupInfo();
-    	String procArray[] = cgInfo.getProcessList();
-	
-    	for(int i = 0; i < procArray.length; i++)
-    	{
-    		procList += procArray[i] + "\n";
-    	}
-    	
-    	return procList;
+    	startActivity(i);
     }
 
 }

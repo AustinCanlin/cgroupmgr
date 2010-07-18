@@ -1,15 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    >
-<TextView  
-    android:layout_width="fill_parent" 
-    android:layout_height="wrap_content" 
-    android:text="@string/hello"
-    />
-<ListView android:id="@+id/ProcList" 
-		  android:layout_width="wrap_content" 
-		  android:layout_height="wrap_content"></ListView>
-</LinearLayout>
+
+
+
+
+<ScrollView android:layout_width="fill_parent" 
+			android:layout_height="fill_parent" 
+			xmlns:android="http://schemas.android.com/apk/res/android">
+	<TableLayout android:layout_width="fill_parent"
+	            android:layout_height="fill_parent"
+	            android:stretchColumns="1">
+		<TableRow>		
+			<TextView android:text="Open Process List:  " android:id="@+id/TextView01" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+			<Button android:text="..." android:id="@+id/btnOpenProcList" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+			<TextView android:text= "                                  " android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+		</TableRow>
+		<TableRow/>
+		<TableRow>
+			<TextView android:text="CGroup Path: " android:id="@+id/TextView02" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+			<TextView android:text="234" android:id="@+id/txtCGroupPath" android:layout_span="2" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+		</TableRow>
+		<TableRow>
+			<TextView android:text="Children: " 
+						android:id="@+id/TextView03" 
+						android:layout_width="fill_parent" 
+						android:layout_height="wrap_content"/>
+		</TableRow>
+		<TableRow>
+			<Spinner android:id="@+id/cgroupChildSpinner" 
+						android:layout_span="3"
+						android:layout_height="wrap_content" 
+						android:layout_width="fill_parent"/>
+		</TableRow>
+		<TableRow>
+			<TextView android:text="" 
+						android:id="@+id/txtCGroupInfo" 
+						android:layout_span="3"
+						android:layout_width="wrap_content" 
+						android:layout_height="wrap_content"/>
+		</TableRow>
+	</TableLayout>
+
+</ScrollView>

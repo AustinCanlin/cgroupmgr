@@ -56,7 +56,7 @@ public final class ProcessListView extends Activity
 			
 			Bundle b = new Bundle();
 
-			b.putString("PID", strPID);
+			b.putString("myPID", strPID);
 
 			i.putExtras(b);
 			

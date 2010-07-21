@@ -1,0 +1,5 @@
+#summary Describes the cgroups implementation on the Android platform
+
+    Despite the fact that most Android platforms have but one single-core CPU, Android 2.1 has a version of cgroups built into the kernel by default.  It comes pre-configured with a single root control set located at */dev/cpuctl*.  This cgroup is mounted as writeable by default and the files contained in the cgroup are configured with -rw-r--r-- permissions.
+
+    As with other versions of linux, cgroups on Android can be manipulated using proc_fs.  Creating subdirectories under /dev/cpuctl will automatically create a new sub-group.  Writing a PID to the _tasks_ file will add that process to the control group.  Any statistics or bookkeeping information is stored in the files in the cgroup's directory in procfs.  On multi-core versions of Android, cgroups could be assigned to specific cores via the proc_fs interface.  For the most part, cgroups for Android works the same as cgroups for other linux distributions.

@@ -1,0 +1,9 @@
+#summary Lists and describes references used in the creation of this research project.
+
+= Introduction =
+
+Project References
+
+= Details =
+
+  * [http://www.mjmwired.net/kernel/Documentation/cgroups.txt Linux Kernel Docs - cgroups] by Paul Menage - Provides overview of how to configure and use cgroups in linux.

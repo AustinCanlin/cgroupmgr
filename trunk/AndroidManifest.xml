@@ -15,6 +15,8 @@
 
 	<activity android:launchMode="standard" android:name="ProcessListView" android:label="@string/processList"></activity>
     <activity android:launchMode="standard" android:name="ProcessInfoView" android:label="@string/processInfo"></activity>
+    <activity android:launchMode="standard" android:name="CGroupListView" android:label="@string/processInfo"></activity>
+    <activity android:launchMode="standard" android:name="AddChildDialog" android:label=""></activity>
 </application>    
 
 </manifest> 

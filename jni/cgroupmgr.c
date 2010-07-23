@@ -9,14 +9,32 @@
 
 #define MAX_PATH 1024
 
+typedef int (*filterFunc)(char *szString);
+
 // Puts list of processes in linked list.  Returns number of entries
-int getDirList(char *szDir, list_node **pList);
+int getDirList(char *szDir, list_node **pList, filterFunc *pFunc);
 
 void getProcessName(char *szPID, char *szProcInfo);
 
 int getFileSize(char *szFile);
 
 int isNumber(char *szStr);
+int directoriesOnly(char *szStr);
+
+char *g_szCGroupFilterList[] =
+{
+	".",
+	"..",
+	"bg_non_interactive",
+	"fg_boost",
+	"cpu.rt_period_us",
+	"cpu.rt_runtime_us",
+	"cpu.shares",
+	"release_agent",
+	"notify_on_release",
+	"tasks",
+	NULL
+};
 
 // Returns a process list to the Java application
 jobjectArray Java_steve_cgroups_CGroupInfo_getProcessList( JNIEnv* env,
@@ -27,7 +45,9 @@ jobjectArray Java_steve_cgroups_CGroupInfo_getProcessList( JNIEnv* env,
   	list_node *pList = NULL;
   	int numProcs = 0;
  
- 	numProcs = getDirList("/proc", &pList);
+	filterFunc pFilterFunc = isNumber;
+	
+ 	numProcs = getDirList("/proc", &pList, &pFilterFunc);
  	
   	processList  = (*env)->NewObjectArray(env, 
   										  numProcs, 
@@ -80,8 +100,61 @@ jstring Java_steve_cgroups_CGroupInfo_getProcessInfo( JNIEnv* env,
 	return strRet;
 }
 
+jobjectArray Java_steve_cgroups_CGroupInfo_getCGroupChildList( JNIEnv* env,
+                                 jobject thiz, jstring container)
+{
+	jobjectArray childList = NULL;
+  	
+  	list_node *pList = NULL;
+  	int numProcs = 0;
+ 
+	filterFunc pFilterFunc = directoriesOnly;
+	
+ 	numProcs = getDirList((char*)((*env)->GetStringUTFChars(env, container, 0)),
+						  &pList, &pFilterFunc);
+ 	
+  	childList  = (*env)->NewObjectArray(env, 
+  										  numProcs, 
+  										  (*env)->FindClass(env, "java/lang/String"), 
+  										  0);
+ 	
+  	list_node *pCur = NULL;
+  	int i = 0;
+ 	
+   	for(pCur = pList; pCur != NULL; pCur = pCur->pNext)
+   	{
+   		char procInfo[MAX_PATH + 1];
+   		
+		snprintf(procInfo, MAX_PATH, "%s", (char*)(pCur->pPayload));
+   		
+		jstring str = (*env)->NewStringUTF(env, procInfo);		
+		(*env)->SetObjectArrayElement(env, childList, i, str);
+
+		i++;
+    }
+
+    ll_payloadFreeFunc pFunc = free;
+    ll_destroyList(&pList, &pFunc);
+  	
+  	return childList;
+}
+
+void Java_steve_cgroups_CGroupInfo_addChildToCGroup(JNIEnv* env,
+                                 jobject thiz, jstring jsBasePath, jstring jsChildName)
+{
+	char szNewPath[MAX_PATH+1];
+	
+	snprintf(szNewPath, MAX_PATH, "%s/%s\0", 
+			 (char*)((*env)->GetStringUTFChars(env, jsBasePath, 0)),
+			 (char*)((*env)->GetStringUTFChars(env, jsChildName, 0)));
+			 
+	mkdir(szNewPath, S_IRUSR | S_IWUSR | S_IXUSR 
+					| S_IRGRP | S_IWGRP | S_IXGRP 
+					| S_IROTH | S_IWOTH | S_IXOTH);
+}
+
 // Loads the list of files/directories in a directory into a linked list
-int getDirList(char *szDir, list_node **pList)
+int getDirList(char *szDir, list_node **pList, filterFunc *pFunc)
 {
 	DIR *dp;
     struct dirent *ep;
@@ -92,7 +165,7 @@ int getDirList(char *szDir, list_node **pList)
     {
     	while(ep = readdir (dp))
 		{	
-			if(1 == isNumber(ep->d_name))
+			if(NULL != pFunc && 1 == (*pFunc)(ep->d_name))
 			{
 				char *szDir = (char*)malloc(strlen(ep->d_name) + 1);
 				strcpy(szDir, ep->d_name);			
@@ -180,6 +253,23 @@ int isNumber(char *szStr)
 		if(szStr[i] < '0' || szStr[i] > '9')
 		{
 			nRet = 0; 
+			break;
+		}
+	}
+	
+	return nRet;
+}
+
+int directoriesOnly(char *szStr)
+{
+	int i = 0;
+	int nRet = 1;
+	
+	for(i = 0; NULL != g_szCGroupFilterList[i]; i++)
+	{
+		if(0 == strcmp(szStr, g_szCGroupFilterList[i]))
+		{
+			nRet = 0;
 			break;
 		}
 	}

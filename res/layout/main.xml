@@ -8,31 +8,30 @@
 			xmlns:android="http://schemas.android.com/apk/res/android">
 	<TableLayout android:layout_width="fill_parent"
 	            android:layout_height="fill_parent"
-	            android:stretchColumns="1">
-		<TableRow>		
-			<TextView android:text="Open Process List:  " android:id="@+id/TextView01" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
-			<Button android:text="..." android:id="@+id/btnOpenProcList" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
-			<TextView android:text= "                                  " android:layout_width="wrap_content" android:layout_height="wrap_content"/>
-		</TableRow>
-		<TableRow/>
-		<TableRow>
-			<TextView android:text="CGroup Path: " android:id="@+id/TextView02" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+	            android:stretchColumns="1">	    
+	    <TableRow>
+			<TextView android:text="CGroup path: " android:id="@+id/TextView02" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
 			<TextView android:text="234" android:id="@+id/txtCGroupPath" android:layout_span="2" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
 		</TableRow>
 		<TableRow>
-			<TextView android:text="Children: " 
-						android:id="@+id/TextView03" 
+			<Button android:text="View Children..." android:id="@+id/btnOpenChildList" android:layout_width="wrap_content" android:layout_height="wrap_content"/>						
+		</TableRow>
+		<TableRow>					
+			<Button android:text="Add process to cgroup..." android:id="@+id/btnOpenProcList" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+			<TextView android:text= "                                  " android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+		</TableRow>
+		<TableRow>					
+			<Button android:text="Add Child..." android:id="@+id/btnAddChild" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+			<TextView android:text= "                                  " android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+		</TableRow>
+		<TableRow/>		
+		<TableRow>
+		<TextView android:text="CGroup Info:" 						
 						android:layout_width="fill_parent" 
 						android:layout_height="wrap_content"/>
 		</TableRow>
 		<TableRow>
-			<Spinner android:id="@+id/cgroupChildSpinner" 
-						android:layout_span="3"
-						android:layout_height="wrap_content" 
-						android:layout_width="fill_parent"/>
-		</TableRow>
-		<TableRow>
-			<TextView android:text="" 
+			<TextView android:text="placeholder" 
 						android:id="@+id/txtCGroupInfo" 
 						android:layout_span="3"
 						android:layout_width="wrap_content" 

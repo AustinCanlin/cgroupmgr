@@ -9,6 +9,11 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.ArrayAdapter;
 import java.lang.String;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.DataOutputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public class CGroupMgr extends Activity 
 {		
@@ -39,14 +44,14 @@ public class CGroupMgr extends Activity
 		        	strCGroupPath = b.getString("cgroupPath");        	
 		        }
 	        }
-        }
-        
-        cgroupInfo = (TextView)findViewById(R.id.txtCGroupInfo);
-        cgroupInfo.setText("1234567890123456789012345678901234567890\n1234567890123456789012345678901234567890/n1234567890123456789012345678901234567890\n");
+        }       
         
         cgroupPath = (TextView)findViewById(R.id.txtCGroupPath);
         cgroupPath.setText(strCGroupPath);
-               
+        
+        cgroupInfo = (TextView)findViewById(R.id.txtCGroupInfo);
+        showCGroupInfo();        
+        
         final Button procListButton = (Button) findViewById(R.id.btnOpenProcList);
         procListButton.setOnClickListener(new View.OnClickListener() 
         {
@@ -145,7 +150,47 @@ public class CGroupMgr extends Activity
     }
     
     protected void addProcessToCGroup(String strPID)
-    {
+    {      	
+    
+    	FileOutputStream fileOut;
+    	 try 
+    	 {
+    		 File file = new File(strCGroupPath + "/tasks");
+    		 fileOut = new FileOutputStream(file);
+    		 DataOutputStream outStream = new DataOutputStream(fileOut);
+    		 
+    		 long ulPID = Long.parseLong(strPID);
+    		 
+    		 outStream.writeLong(ulPID);
+    		 //outStream.writeChars(strPID);
+    		 
+    		 outStream.close();
+    		 fileOut.close();
+    	 } 
+    	 catch(IOException e) 
+    	 {
+    		 System.out.println("Cannot open destination file");
+    		 return;
+    	 }    
+  	 
+    	//CGroupInfo info = new CGroupInfo();
     	
+    	//info.addProcessToCGroup(strCGroupPath, Long.parseLong(strPID));
+    }
+    
+    protected void showCGroupInfo()
+    {
+    	CGroupInfo info = new CGroupInfo();
+    	
+    	String strInfo = new String();
+    	
+    	strInfo += "Task list:\n__________\n";
+    	
+    	String strTasks = info.getCGroupTasklist(strCGroupPath); 
+    	
+    	if(null != strTasks)
+    		strInfo += strTasks; 
+    	
+    	cgroupInfo.setText(strInfo);    	
     }
 }

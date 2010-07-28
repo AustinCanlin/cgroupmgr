@@ -10,7 +10,7 @@ import android.view.View;
 public class AddChildDialog extends Activity
 {
 	private EditText txtChildName;
-	
+    
 	@Override
     public void onCreate(Bundle savedInstanceState) 
     {

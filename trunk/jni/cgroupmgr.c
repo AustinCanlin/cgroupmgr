@@ -6,6 +6,9 @@
 #include <dirent.h>
 #include <fcntl.h>
 #include <sys/stat.h>
+#include <inttypes.h>
+#include <linux/types.h>
+
 
 #define MAX_PATH 1024
 
@@ -151,6 +154,62 @@ void Java_steve_cgroups_CGroupInfo_addChildToCGroup(JNIEnv* env,
 	mkdir(szNewPath, S_IRUSR | S_IWUSR | S_IXUSR 
 					| S_IRGRP | S_IWGRP | S_IXGRP 
 					| S_IROTH | S_IWOTH | S_IXOTH);
+}
+
+void Java_steve_cgroups_CGroupInfo_addProcessToCGroup(JNIEnv* env,
+                                 jobject thiz, jstring jsBasePath, jlong jsPID)
+{
+	char szNewPath[MAX_PATH+1];
+	
+	snprintf(szNewPath, MAX_PATH, "%s/tasks", 
+			 (char*)((*env)->GetStringUTFChars(env, jsBasePath, 0)));
+
+	FILE *fTasks = fopen(szNewPath, "a+");
+	
+	if(NULL != fTasks)
+	{
+		uint64_t pid = jsPID;
+		fwrite(&pid, sizeof(pid), 1, fTasks);
+		//fprintf(fTasks, "%s", (char*)((*env)->GetStringUTFChars(env, jsPID, 0)));
+		
+		fclose(fTasks);
+	}
+			 
+/*			 
+	char szCmd[MAX_PATH+1];
+	
+	snprintf(szCmd, MAX_PATH, "echo %s > %s/tasks", (char*)((*env)->GetStringUTFChars(env, jsPID, 0)),
+											  (char*)((*env)->GetStringUTFChars(env, jsBasePath, 0)));
+			 
+	system("echo 192 > /dev/cpuctl/isolation/tasks");
+*/
+}
+
+jstring Java_steve_cgroups_CGroupInfo_getCGroupTasklist(JNIEnv* env,
+                                 jobject thiz, jstring jsBasePath)
+{
+	jstring strRet = NULL;
+	
+	char szTasks[MAX_PATH+1];
+	
+	sprintf(szTasks, "%s/tasks", (*env)->GetStringUTFChars(env, jsBasePath, 0));
+	
+	char szInfo[(MAX_PATH*2) + 1];
+	
+	FILE *fileTasks = fopen(szTasks, "r");
+	
+	if(NULL != fileTasks)
+	{
+		unsigned long ulSize = fread(szInfo, 1, MAX_PATH*2, fileTasks);
+		
+		szInfo[ulSize] = '\0';
+		
+		strRet = (*env)->NewStringUTF(env, szInfo);
+		
+		fclose(fileTasks);
+	}
+	
+	return strRet;
 }
 
 // Loads the list of files/directories in a directory into a linked list

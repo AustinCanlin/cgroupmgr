@@ -3,11 +3,11 @@
 #include <stdio.h>
 #include <jni.h>
 #include <sys/types.h>
+#include <linux/types.h>
 #include <dirent.h>
 #include <fcntl.h>
 #include <sys/stat.h>
 #include <inttypes.h>
-#include <linux/types.h>
 
 
 #define MAX_PATH 1024
@@ -164,7 +164,7 @@ void Java_steve_cgroups_CGroupInfo_addProcessToCGroup(JNIEnv* env,
 	snprintf(szNewPath, MAX_PATH, "%s/tasks", 
 			 (char*)((*env)->GetStringUTFChars(env, jsBasePath, 0)));
 
-	FILE *fTasks = fopen(szNewPath, "a+");
+	FILE *fTasks = fopen(szNewPath, "a");
 	
 	if(NULL != fTasks)
 	{

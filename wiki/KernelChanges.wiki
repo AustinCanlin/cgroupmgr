@@ -1,0 +1,20 @@
+#summary Describes kernel code changes required.
+
+= Introduction =
+
+Because each Dalvik application runs as a separate non-root user on the system, cgroupmgr does not have permissions to write to the files under the cgroup procfs file system.  This page describes the kernel changes made so that the files were writeable by non-root users.
+
+
+= Details =
+
+In Android 2.1, cgroups is implemented in the following files located in the /kernel directory of the source tree:
+
+  * cgroup.c
+  * cgroup_debug.c
+  * cgroup_freezer.c
+
+The function _cgroup_add_file()_ in cgroup.c (located at around line 1692) is responsible for the creation of all files located under the /dev/cpuctl file structure.  By default, the file permissions for all files are -rw-r--r-- (0644).  This value is passed into the function _cgroup_create_file()_.  By changing this value to 0666 (-rw-rw-rw-), the files become writeable by all users on the system upon creation.
+
+By making this change, any process running inside of Dalvik can manipulate the cgroups' configuration by simple reads and writes to the files.
+
+== The tasks File ==

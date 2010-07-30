@@ -3,3 +3,7 @@
 = Project References=
 
   * [http://www.mjmwired.net/kernel/Documentation/cgroups.txt Linux Kernel Docs - cgroups] by Paul Menage - Provides overview of how to configure and use cgroups in linux.
+  * _Battery Resource Containers: Providing Battery Quotas to Process Groups_ - Rahul Murmuria and Angelos Stavrou
+  *   _Power-saving
+Mode for Mobile Computing in Wi-ﬁ Hotspots: Limitations, Enhancements and Open Issues_ - G. Anastasi, M. Conti, E. Gregori, and A. Passarella. 802.11 . Wirel. Netw., 14(6):745–768, 2008.
+  * 

@@ -22,7 +22,7 @@ The instructions for installing and configuring these items are easily available
 
 The source code for the cgroupmgr project can be downloaded from this site using the instructions provided [http://code.google.com/p/cgroupmgr/source/checkout here.]
 
-In order to build the JNI shared object, simple execute the command _<ndk_path>/ndk-build_ from the <cgroupmgr_src>/jni directory.  This will compile the shared object and put it into the proper location for inclusion into the install package.
+In order to build the JNI shared object, simple execute the command _`<ndk_path>`/ndk-build_ from the `<cgroupmgr_src>`/jni directory.  This will compile the shared object and put it into the proper location for inclusion into the install package.
 
 Run Eclipse and then execute the following steps to build the rest of the application and install package.
 

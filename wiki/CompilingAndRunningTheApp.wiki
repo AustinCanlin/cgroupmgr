@@ -1,0 +1,17 @@
+#summary Instructions for Building and Running *cgroupmgr*
+
+= Introduction =
+
+Because this is a research project and not a polished end-user application, getting it up and running requires several steps.  This page provides instructions on how to get started.
+
+
+= Details =
+
+== Building the App ==
+
+This application contains both Java code and a JNI shared object written in C.  The following development tools are required for building the project:
+
+  # Eclipse Ganymede - a free Java IDE that includes Java 6.
+  # The [http://developer.android.com/sdk/ndk/index.html Android Native Development Kit (NDK)]
+  # The GNU compiler collection, which comes with most Linux distributions
+

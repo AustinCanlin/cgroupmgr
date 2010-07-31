@@ -12,6 +12,25 @@ Because this is a research project and not a polished end-user application, gett
 This application contains both Java code and a JNI shared object written in C.  The following development tools are required for building the project:
 
   # Eclipse Ganymede - a free Java IDE that includes Java 6.
+  # The Android SDK
+  # The [http://developer.android.com/sdk/installing.html#InstallingADT ADT Plugin] for Ecllipse
   # The [http://developer.android.com/sdk/ndk/index.html Android Native Development Kit (NDK)]
   # The GNU compiler collection, which comes with most Linux distributions
+  # Subversion, a source control program that comes with most Linux distributions
 
+The instructions for installing and configuring these items are easily available via man pages and from the Android web site.
+
+The source code for the cgroupmgr project can be downloaded from this site using the instructions provided [http://code.google.com/p/cgroupmgr/source/checkout here.]
+
+In order to build the JNI shared object, simple execute the command _<ndk_path>/ndk-build_ from the <cgroupmgr_src>/jni directory.  This will compile the shared object and put it into the proper location for inclusion into the install package.
+
+Run Eclipse and then execute the following steps to build the rest of the application and install package.
+
+  # Go to *File->New->Other...*
+  # Select *Android Project* and click Next
+  # Type "cgroupmgr" in the *Project Name* edit box.
+  # Select the *Create project from existing source* radio button and specify the root of the cgroupmgr source directory as the path.
+  # Click on *Finish* at the bottom of the dialog box
+
+== Running the App ==
+Once the project has finished auto-building, run the Android Emulator.  Once an instance of the emulator has booted you can run the *cgroupmgr* application by selecting *Run->Run As->Android Application* from the Eclipse menu
